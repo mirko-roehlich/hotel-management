@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6BCEBC08-BF33-4144-BD66-3F466C4FFD3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagement.Api", "src\HotelManagement.Api\HotelManagement.Api.csproj", "{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2AE0EC4-3C9D-4851-A8F7-4D2FD7CED300} = {6BCEBC08-BF33-4144-BD66-3F466C4FFD3E}
+	EndGlobalSection
+EndGlobal
