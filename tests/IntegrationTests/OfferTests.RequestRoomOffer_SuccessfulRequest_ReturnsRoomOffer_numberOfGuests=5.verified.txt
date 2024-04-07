@@ -1,0 +1,9 @@
+﻿{
+  RoomOffers: [
+    {
+      Category: Suit,
+      Description: ,
+      Price: 99.99
+    }
+  ]
+}

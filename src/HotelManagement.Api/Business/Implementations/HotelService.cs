@@ -9,8 +9,13 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
     public async Task<IEnumerable<Hotel>> GetAllHotels() =>
         await hotelRepository.GetAllHotels();
 
-    public async Task<Hotel?> GetHotelById(int id) =>
-        await hotelRepository.GetHotelById(id);
+    public async Task<Hotel> GetHotelById(int id)
+    {
+        var hotel = await hotelRepository.GetHotelById(id);
+        ArgumentNullException.ThrowIfNull(hotel);
+
+        return hotel;
+    }
 
     public async Task<Hotel> AddHotel(CreateHotelRequest createHotelRequest)
     {

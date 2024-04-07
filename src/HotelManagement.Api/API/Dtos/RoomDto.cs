@@ -8,5 +8,6 @@ public record RoomDto(int Id, int RoomNumber, RoomCategory CategoryId, int Capac
         new(room.Id, room.RoomNumber, room.Category, room.Capacity, room.Price);
 };
 
-public record CreateRoomRequestDto(int RoomNumber, RoomCategory CategoryId, int Capacity);
+public record CreateRoomRequestDto(int RoomNumber, RoomCategory CategoryId, int Capacity, decimal Price);
 
+public record UpdateRoomRequestDto(int RoomNumber, RoomCategory CategoryId, int Capacity, decimal Price);

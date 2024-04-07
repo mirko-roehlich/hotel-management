@@ -6,7 +6,7 @@ public class Booking
     public string BookingNumber { get; set; } = string.Empty;
 
     public int HotelId { get; set; }
-    public IEnumerable<RoomBooking> RoomBookings { get; set; } = [];
+    public ICollection<RoomBooking> RoomBookings { get; set; } = [];
     private const decimal Seed = 0m;
     public decimal TotalAmount => RoomBookings.Aggregate(Seed, (total, roomBooking) => total + roomBooking.Price);
 }

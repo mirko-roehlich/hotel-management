@@ -1,0 +1,14 @@
+﻿{
+  RoomOffers: [
+    {
+      Category: Deluxe,
+      Description: ,
+      Price: 69.99
+    },
+    {
+      Category: Suit,
+      Description: ,
+      Price: 99.99
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+﻿{
+  Id: 2,
+  RoomNumber: 1234,
+  CategoryId: Single,
+  Capacity: 1,
+  Price: 14.99
+}

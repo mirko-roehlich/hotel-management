@@ -20,13 +20,19 @@ public class HotelController(IHotelService hotelService) : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<HotelDto>> GetHotelById(int id)
     {
-        var hotel = await hotelService.GetHotelById(id);
-        if (hotel is null)
+        try
+        {
+            var hotel = await hotelService.GetHotelById(id);
+            return Ok(HotelDto.From(hotel));
+        }
+        catch (ArgumentNullException)
         {
             return NotFound();
         }
-
-        return Ok(HotelDto.From(hotel));
+        catch (Exception )
+        {
+            return BadRequest();
+        }
     }
 
     [HttpPost]

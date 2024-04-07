@@ -1,0 +1,29 @@
+﻿{
+  RoomOffers: [
+    {
+      Category: Single,
+      Description: ,
+      Price: 14.99
+    },
+    {
+      Category: Double,
+      Description: ,
+      Price: 24.99
+    },
+    {
+      Category: King,
+      Description: ,
+      Price: 29.99
+    },
+    {
+      Category: Deluxe,
+      Description: ,
+      Price: 69.99
+    },
+    {
+      Category: Suit,
+      Description: ,
+      Price: 99.99
+    }
+  ]
+}

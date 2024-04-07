@@ -26,6 +26,10 @@ public class RoomController(IRoomService roomService) : ControllerBase
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
+        catch (ArgumentNullException)
+        {
+            return NotFound();
+        }
         catch (Exception)
         {
             return BadRequest();
@@ -42,7 +46,7 @@ public class RoomController(IRoomService roomService) : ControllerBase
 
         try
         {
-            CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity);
+            CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price);
             var room = await roomService.AddRoom(hotelId, createRoomRequest);
             var roomDto = RoomDto.From(room);
             return CreatedAtAction(nameof(GetRoomById), new { hotelId, roomId = roomDto.Id }, roomDto);
@@ -64,8 +68,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
         try
         {
             UpdateRoomRequest updateRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity);
-            await roomService.UpdateRoom(hotelId, roomId, updateRoomRequest);
-            return NoContent();
+            var room = await roomService.UpdateRoom(hotelId, roomId, updateRoomRequest);
+            var roomDto = RoomDto.From(room);
+            return Ok(roomDto);
         }
         catch (Exception)
         {

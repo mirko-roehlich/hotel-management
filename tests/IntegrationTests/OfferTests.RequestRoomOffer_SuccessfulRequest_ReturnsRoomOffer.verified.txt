@@ -1,0 +1,28 @@
+﻿{
+  RoomOffers: [
+    {
+      Category: Double,
+      Description: ,
+      Price: 24.99,
+      Currency: EUR
+    },
+    {
+      Category: King,
+      Description: ,
+      Price: 29.99,
+      Currency: EUR
+    },
+    {
+      Category: Deluxe,
+      Description: ,
+      Price: 69.99,
+      Currency: EUR
+    },
+    {
+      Category: Suit,
+      Description: ,
+      Price: 99.99,
+      Currency: EUR
+    }
+  ]
+}

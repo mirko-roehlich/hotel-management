@@ -1,0 +1,4 @@
+﻿{
+  Id: 2,
+  Name: Nice Hotel
+}

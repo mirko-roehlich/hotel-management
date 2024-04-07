@@ -14,10 +14,12 @@ builder.Services.AddDbContext<AppDbContext>(options => { options.UseNpgsql(build
 
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IOfferService, OfferService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -31,3 +33,5 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

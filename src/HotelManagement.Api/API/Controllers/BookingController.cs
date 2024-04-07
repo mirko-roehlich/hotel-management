@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.Api.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/hotel/{hotelId:int}/[controller]")]
 [ApiController]
 public class BookingController(IBookingService bookingService) : ControllerBase
 {

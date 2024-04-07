@@ -11,7 +11,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
 
     public async Task<Room> GetRoomById(int hotelId, int roomId)
     {
-        var room = await roomRepository.GetRoomById(hotelId, roomId);
+        var room = await roomRepository.GetRoomById(roomId, hotelId);
         ArgumentNullException.ThrowIfNull(room);
 
         return room;
@@ -29,7 +29,9 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
             HotelId = hotelId,
             RoomNumber = createRoomRequest.RoomNumber,
             Category = createRoomRequest.Category,
-            Capacity = createRoomRequest.Capacity
+            Capacity = createRoomRequest.Capacity,
+            Price = createRoomRequest.Price,
+            IsAvailable = true
         };
         await roomRepository.AddRoom(room);
         return room;
@@ -44,6 +46,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
 
         existingRoom.RoomNumber = updateRoomRequest.RoomNumber ?? existingRoom.RoomNumber;
         existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
+        existingRoom.Capacity = updateRoomRequest.Capacity ?? existingRoom.Capacity;
 
         await roomRepository.UpdateRoom(existingRoom);
         return existingRoom;
