@@ -1,6 +1,7 @@
 using HotelManagement.Api.API.Dtos;
 using HotelManagement.Api.API.Extensions;
 using HotelManagement.Api.Business;
+using HotelManagement.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.Api.API.Controllers;
@@ -14,7 +15,8 @@ public class OfferController(IOfferService offerService) : Controller
     {
         try
         {
-            var offerResult = await offerService.GetOffer(offerRequestDto.ToDomain(), hotelId);
+            HotelId id = new(hotelId);
+            var offerResult = await offerService.GetOffer(offerRequestDto.ToDomain(), id);
             var offerResultDto = OfferResultDto.From(offerResult);
             return Ok(offerResultDto);
         }

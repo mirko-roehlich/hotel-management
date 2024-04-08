@@ -19,12 +19,12 @@ public class RoomRepository(AppDbContext dbContext) : IRoomRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Room>> GetAllRooms(int hotelId) =>
+    public async Task<List<Room>> GetAllRooms(HotelId hotelId) =>
         await dbContext.Rooms
             .Where(r => r.HotelId == hotelId)
             .ToListAsync();
 
-    public async Task<Room?> GetRoomById(int hotelId, int id) =>
+    public async Task<Room?> GetRoomById(HotelId hotelId, int id) =>
         await dbContext.Rooms.FirstOrDefaultAsync(r => r.Id == id && r.HotelId == hotelId);
 
     public async Task UpdateRoom(Room room)
@@ -34,7 +34,7 @@ public class RoomRepository(AppDbContext dbContext) : IRoomRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Room>> GetAvailableRooms(int hotelId) =>
+    public async Task<IEnumerable<Room>> GetAvailableRooms(HotelId hotelId) =>
         await dbContext.Rooms
             .Where(r => r.HotelId == hotelId && r.IsAvailable)
             .ToListAsync();

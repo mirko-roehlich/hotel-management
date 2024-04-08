@@ -22,7 +22,7 @@ public class HotelRepository(AppDbContext dbContext) : IHotelRepository
     public async Task<List<Hotel>> GetAllHotels() =>
         await dbContext.Hotels.ToListAsync();
 
-    public async Task<Hotel?> GetHotelById(int id) =>
+    public async Task<Hotel?> GetHotelById(HotelId id) =>
         await dbContext.Hotels
             .Include(h => h.Rooms)
             .FirstOrDefaultAsync(h => h.Id == id);

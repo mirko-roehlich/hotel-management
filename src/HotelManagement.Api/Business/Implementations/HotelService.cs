@@ -9,7 +9,7 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
     public async Task<IEnumerable<Hotel>> GetAllHotels() =>
         await hotelRepository.GetAllHotels();
 
-    public async Task<Hotel> GetHotelById(int id)
+    public async Task<Hotel> GetHotelById(HotelId id)
     {
         var hotel = await hotelRepository.GetHotelById(id);
         ArgumentNullException.ThrowIfNull(hotel);
@@ -27,7 +27,7 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
         return hotel;
     }
 
-    public async Task<Hotel> UpdateHotel(int id, UpdateHotelRequest updateHotelRequest)
+    public async Task<Hotel> UpdateHotel(HotelId id, UpdateHotelRequest updateHotelRequest)
     {
         var existingHotel = await hotelRepository.GetHotelById(id);
         if (existingHotel is null)
@@ -41,7 +41,7 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
         return existingHotel;
     }
 
-    public async Task DeleteHotel(int id)
+    public async Task DeleteHotel(HotelId id)
     {
         var existingHotel = await hotelRepository.GetHotelById(id);
         if (existingHotel is null)

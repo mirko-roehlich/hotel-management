@@ -1,6 +1,7 @@
 using HotelManagement.Api.API.Dtos;
 using HotelManagement.Api.Business;
 using HotelManagement.Api.Business.Models;
+using HotelManagement.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.Api.API.Controllers;
@@ -22,7 +23,8 @@ public class HotelController(IHotelService hotelService) : ControllerBase
     {
         try
         {
-            var hotel = await hotelService.GetHotelById(id);
+            HotelId hotelId = new(id);
+            var hotel = await hotelService.GetHotelById(hotelId);
             return Ok(HotelDto.From(hotel));
         }
         catch (ArgumentNullException)
@@ -67,7 +69,8 @@ public class HotelController(IHotelService hotelService) : ControllerBase
         try
         {
             UpdateHotelRequest updateHotelRequest = new(dto.Name);
-            var hotel = await hotelService.UpdateHotel(id, updateHotelRequest);
+            HotelId hotelId = new(id);
+            var hotel = await hotelService.UpdateHotel(hotelId, updateHotelRequest);
             var hotelDto = HotelDto.From(hotel);
 
             return Ok(hotelDto);
@@ -83,7 +86,8 @@ public class HotelController(IHotelService hotelService) : ControllerBase
     {
         try
         {
-            await hotelService.DeleteHotel(id);
+            HotelId hotelId = new(id);
+            await hotelService.DeleteHotel(hotelId);
             return NoContent();
         }
         catch (Exception e)

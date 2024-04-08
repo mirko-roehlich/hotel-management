@@ -1,3 +1,5 @@
+using HotelManagement.Api.Data.Models;
+
 namespace HotelManagement.Api.Business.Models;
 
-public record BookRoomsRequest(int HotelId, string FirstName, string LastName, IEnumerable<RoomRequest> RoomRequests);
+public record BookRoomsRequest(HotelId HotelId, string FirstName, string LastName, IEnumerable<RoomRequest> RoomRequests);

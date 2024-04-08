@@ -6,18 +6,18 @@ namespace HotelManagement.Api.Business.Implementations;
 
 public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelRepository) : IRoomService
 {
-    public async Task<IEnumerable<Room>> GetAllRooms(int hotelId) =>
+    public async Task<IEnumerable<Room>> GetAllRooms(HotelId hotelId) =>
         await roomRepository.GetAllRooms(hotelId);
 
-    public async Task<Room> GetRoomById(int hotelId, int roomId)
+    public async Task<Room> GetRoomById(HotelId hotelId, int roomId)
     {
         var room = await roomRepository.GetRoomById(roomId, hotelId);
         ArgumentNullException.ThrowIfNull(room);
-
+        
         return room;
     }
 
-    public async Task<Room> AddRoom(int hotelId, CreateRoomRequest createRoomRequest)
+    public async Task<Room> AddRoom(HotelId hotelId, CreateRoomRequest createRoomRequest)
     {
         ArgumentNullException.ThrowIfNull(createRoomRequest);
 
@@ -42,7 +42,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         return room;
     }
 
-    public async Task<Room> UpdateRoom(int hotelId, int roomId, UpdateRoomRequest updateRoomRequest)
+    public async Task<Room> UpdateRoom(HotelId hotelId, int roomId, UpdateRoomRequest updateRoomRequest)
     {
         ArgumentNullException.ThrowIfNull(updateRoomRequest);
 
@@ -62,7 +62,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         return existingRoom;
     }
 
-    public async Task DeleteRoom(int hotelId, int roomId)
+    public async Task DeleteRoom(HotelId hotelId, int roomId)
     {
         var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
         ArgumentNullException.ThrowIfNull(existingRoom);
@@ -70,5 +70,5 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         await roomRepository.DeleteRoom(existingRoom);
     }
 
-    public async Task<IEnumerable<Room>> GetAvailableRooms(int hotelId) => await roomRepository.GetAvailableRooms(hotelId);
+    public async Task<IEnumerable<Room>> GetAvailableRooms(HotelId hotelId) => await roomRepository.GetAvailableRooms(hotelId);
 }

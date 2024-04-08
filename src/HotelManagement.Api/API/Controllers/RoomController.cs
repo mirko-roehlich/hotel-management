@@ -1,6 +1,7 @@
 using HotelManagement.Api.API.Dtos;
 using HotelManagement.Api.Business;
 using HotelManagement.Api.Business.Models;
+using HotelManagement.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.Api.API.Controllers;
@@ -12,7 +13,8 @@ public class RoomController(IRoomService roomService) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllRooms(int hotelId)
     {
-        var rooms = await roomService.GetAllRooms(hotelId);
+        HotelId id = new(hotelId);
+        var rooms = await roomService.GetAllRooms(id);
         var roomDtos = rooms.Select(RoomDto.From);
         return Ok(roomDtos);
     }
@@ -22,7 +24,8 @@ public class RoomController(IRoomService roomService) : ControllerBase
     {
         try
         {
-            var room = await roomService.GetRoomById(hotelId, roomId);
+            HotelId id = new(hotelId);
+            var room = await roomService.GetRoomById(id, roomId);
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
@@ -47,7 +50,8 @@ public class RoomController(IRoomService roomService) : ControllerBase
         try
         {
             CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price);
-            var room = await roomService.AddRoom(hotelId, createRoomRequest);
+            HotelId id = new(hotelId);
+            var room = await roomService.AddRoom(id, createRoomRequest);
             var roomDto = RoomDto.From(room);
             return CreatedAtAction(nameof(GetRoomById), new { hotelId, roomId = roomDto.Id }, roomDto);
         }
@@ -68,7 +72,8 @@ public class RoomController(IRoomService roomService) : ControllerBase
         try
         {
             UpdateRoomRequest updateRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity);
-            var room = await roomService.UpdateRoom(hotelId, roomId, updateRoomRequest);
+            HotelId id = new(hotelId);
+            var room = await roomService.UpdateRoom(id, roomId, updateRoomRequest);
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
@@ -83,7 +88,8 @@ public class RoomController(IRoomService roomService) : ControllerBase
     {
         try
         {
-            await roomService.DeleteRoom(hotelId, roomId);
+            HotelId id = new(hotelId);
+            await roomService.DeleteRoom(id, roomId);
             return NoContent();
         }
         catch (Exception e)

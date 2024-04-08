@@ -1,11 +1,12 @@
 using HotelManagement.Api.Business.Models;
+using HotelManagement.Api.Data.Models;
 using HotelManagement.Api.Data.Repositories;
 
 namespace HotelManagement.Api.Business.Implementations;
 
 public class OfferService(IRoomRepository roomRepository) : IOfferService
 {
-    public async Task<OfferResult> GetOffer(OfferRequest offerRequest, int hotelId)
+    public async Task<OfferResult> GetOffer(OfferRequest offerRequest, HotelId hotelId)
     {
         var availableRooms = await roomRepository.GetAvailableRooms(hotelId);
 
