@@ -19,7 +19,9 @@ public class BookingTests(IntegrationTestFactory factory) : IAsyncLifetime
         var dto = new BookRoomsRequestDto(_hotel.Id, "Nice", "One", new[] { new RoomRequestDto(1, RoomCategory.Single) });
         var booking = await _bookingTestClient.BookHotel(dto);
 
-        await Verify(booking).ScrubLinesWithReplace(line => line.Contains($"{DateTime.Now.Year}-") ? "year_number" : line);
+        await Verify(booking)
+            .ScrubInlineGuids()
+            .ScrubLinesWithReplace(line => line.Contains($"{DateTime.Now.Year}-") ? "year_number" : line);
     }
 
     [Fact]
@@ -30,7 +32,9 @@ public class BookingTests(IntegrationTestFactory factory) : IAsyncLifetime
 
         var bookingResult = await _bookingTestClient.GetBookingById(booking.BookingId);
 
-        await Verify(bookingResult).ScrubLinesWithReplace(line => line.Contains($"{DateTime.Now.Year}-") ? "year_number" : line);
+        await Verify(bookingResult)
+            .ScrubInlineGuids()
+            .ScrubLinesWithReplace(line => line.Contains($"{DateTime.Now.Year}-") ? "year_number" : line);
     }
 
     public async Task InitializeAsync()

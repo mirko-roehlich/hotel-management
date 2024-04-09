@@ -10,7 +10,7 @@ public class BookingTestClient(HttpClient httpClient)
         await httpClient.PostAsJsonAsync("api/booking", dto)
             .ParseAndValidate<BookingResultDto>();
 
-    public async Task<BookingResultDto> GetBookingById(Guid id) =>
+    public async Task<BookingResultDto> GetBookingById(string id) =>
         await httpClient.GetAsync($"/api/booking/{id}")
             .ParseAndValidate<BookingResultDto>();
 }

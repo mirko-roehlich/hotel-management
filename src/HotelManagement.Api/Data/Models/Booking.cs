@@ -13,7 +13,18 @@ public class Booking
 
 public readonly record struct BookingId(Guid Value)
 {
+    private const string Prefix = "booking_";
     public static BookingId Create() => new(Guid.NewGuid());
     public static implicit operator Guid(BookingId bookingId) => bookingId.Value;
-    public override string ToString() => Value.ToString();
+    public override string ToString() => $"{Prefix}{Value.ToString()}";
+
+    public static BookingId TryParse(string? value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        
+        var foo = value[Prefix.Length..];
+        var id = Guid.Parse(foo);
+
+        return new BookingId(id);
+    }
 }
