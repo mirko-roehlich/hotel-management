@@ -1,0 +1,7 @@
+﻿{
+  Id: 2,
+  RoomNumber: 45679,
+  CategoryId: Deluxe,
+  Capacity: 4,
+  Price: 49.99
+}

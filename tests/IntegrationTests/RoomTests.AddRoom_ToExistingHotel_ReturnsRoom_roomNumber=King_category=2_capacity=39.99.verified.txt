@@ -1,0 +1,7 @@
+﻿{
+  Id: 2,
+  RoomNumber: 90123,
+  CategoryId: King,
+  Capacity: 2,
+  Price: 39.99
+}

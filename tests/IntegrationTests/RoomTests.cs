@@ -16,14 +16,14 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     private readonly RoomTestClient _roomTestClient = new(factory.Client);
 
     [Theory]
-    [InlineData(RoomCategory.Single, 1, 14.99)]
-    [InlineData(RoomCategory.Double, 2, 29.99)]
-    [InlineData(RoomCategory.King, 2, 39.99)]
-    [InlineData(RoomCategory.Deluxe, 4, 49.99)]
-    [InlineData(RoomCategory.Suit, 6, 99.99)]
-    public async Task AddRoom_ToExistingHotel_ReturnsRoom(RoomCategory category, int capacity, decimal price)
+    [InlineData(1234, RoomCategory.Single, 1, 14.99)]
+    [InlineData(5678,RoomCategory.Double, 2, 29.99)]
+    [InlineData(90123, RoomCategory.King, 2, 39.99)]
+    [InlineData(45679, RoomCategory.Deluxe, 4, 49.99)]
+    [InlineData(12345, RoomCategory.Suit, 6, 99.99)]
+    public async Task AddRoom_ToExistingHotel_ReturnsRoom(int roomNumber, RoomCategory category, int capacity, decimal price)
     {
-        var dto = new CreateRoomRequestDto(1234, category, capacity, price);
+        var dto = new CreateRoomRequestDto(roomNumber, category, capacity, price);
         var room = await _roomTestClient.AddRoom(_hotel.Id, dto);
 
         await Verify(room).UseParameters(category, capacity, price);
