@@ -11,11 +11,11 @@ namespace HotelManagement.Api.API.Controllers;
 public class BookingController(IBookingService bookingService) : ControllerBase
 {
     [HttpGet("{bookingId}")]
-    public async Task<ActionResult<BookingResultDto>> GetBookingById(Guid bookingId)
+    public async Task<ActionResult<BookingResultDto>> GetBookingById(string bookingId)
     {
         try
         {
-            BookingId internalBookingId = new(bookingId);
+            var internalBookingId = BookingId.TryParse(bookingId);
             var booking = await bookingService.GetBookingById(internalBookingId);
             if (booking is null)
             {

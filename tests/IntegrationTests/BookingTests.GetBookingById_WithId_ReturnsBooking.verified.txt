@@ -1,5 +1,5 @@
 ﻿{
-  BookingId: Guid_1,
+  BookingId: booking_Guid_1,
   BookingNumber: year_number,
   HotelId: 1,
   BookedRooms: [
