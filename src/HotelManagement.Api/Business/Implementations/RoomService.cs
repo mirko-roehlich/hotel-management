@@ -24,20 +24,10 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         var existingHotel = await hotelRepository.GetHotelById(hotelId);
         ArgumentNullException.ThrowIfNull(existingHotel);
 
-        if (createRoomRequest.RoomNumber <= 0)
-        {
-            throw new InvalidOperationException("Room number must be greater than zero.");
-        }
-
-        if (!VerifyRoomNumber(existingHotel.Id, createRoomRequest.RoomNumber))
-        {
-            throw new ArgumentException();
-        }
-
         var room = new Room
         {
             HotelId = hotelId,
-            RoomNumber = createRoomRequest.RoomNumber,
+            RoomNumber = RoomNumber.Create(createRoomRequest.RoomNumber, GetMaxFloors(hotelId)),
             Category = createRoomRequest.Category,
             Capacity = createRoomRequest.Capacity,
             Price = createRoomRequest.Price,
@@ -47,19 +37,14 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         return room;
     }
 
-    private bool VerifyRoomNumber(int hotelId, int roomNumber)
-    {
-        var maxFloors = hotelId switch
+    private static int GetMaxFloors(int hotelId) =>
+        hotelId switch
         {
             1 => 12,
             2 => 11,
             3 => 14,
             _ => 10
         };
-
-        var floor = roomNumber.ToString("D5")[..2];
-        return int.Parse(floor) < maxFloors;
-    }
 
     public async Task<Room> UpdateRoom(int hotelId, int roomId, UpdateRoomRequest updateRoomRequest)
     {
@@ -68,12 +53,11 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
         ArgumentNullException.ThrowIfNull(existingRoom);
 
-        if (updateRoomRequest.RoomNumber is <= 0)
+        if (updateRoomRequest.RoomNumber.HasValue)
         {
-            throw new InvalidCastException("Room number must be greater than zero.");
+            existingRoom.RoomNumber = RoomNumber.Create(updateRoomRequest.RoomNumber.Value, GetMaxFloors(hotelId));
         }
 
-        existingRoom.RoomNumber = updateRoomRequest.RoomNumber ?? existingRoom.RoomNumber;
         existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
         existingRoom.Capacity = updateRoomRequest.Capacity ?? existingRoom.Capacity;
 
