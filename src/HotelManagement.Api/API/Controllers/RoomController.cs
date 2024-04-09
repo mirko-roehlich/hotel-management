@@ -1,4 +1,5 @@
 using HotelManagement.Api.API.Dtos;
+using HotelManagement.Api.API.Validators;
 using HotelManagement.Api.Business;
 using HotelManagement.Api.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,10 @@ public class RoomController(IRoomService roomService) : ControllerBase
             return BadRequest();
         }
 
+        var validator = new CreateRoomRequestValidator();
+        var validationResult = await validator.ValidateAsync(dto);
+        if (!validationResult.IsValid) return BadRequest(validationResult.Errors.First());
+        
         try
         {
             CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price);

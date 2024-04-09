@@ -29,6 +29,11 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
             throw new InvalidOperationException("Room number must be greater than zero.");
         }
 
+        if (!VerifyRoomNumber(existingHotel.Id, createRoomRequest.RoomNumber))
+        {
+            throw new ArgumentException();
+        }
+
         var room = new Room
         {
             HotelId = hotelId,
@@ -40,6 +45,20 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         };
         await roomRepository.AddRoom(room);
         return room;
+    }
+
+    private bool VerifyRoomNumber(int hotelId, int roomNumber)
+    {
+        var maxFloors = hotelId switch
+        {
+            1 => 12,
+            2 => 11,
+            3 => 14,
+            _ => 10
+        };
+
+        var floor = roomNumber.ToString("D5")[..2];
+        return int.Parse(floor) < maxFloors;
     }
 
     public async Task<Room> UpdateRoom(int hotelId, int roomId, UpdateRoomRequest updateRoomRequest)
