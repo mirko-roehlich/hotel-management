@@ -6,5 +6,5 @@ namespace HotelManagement.Api.Business;
 public interface IBookingService
 {
     Task<Booking> BookRooms(BookRoomsRequest bookRoomsRequest);
-    Task<Booking?> GetBookingById(Guid id);
+    Task<Booking?> GetBookingById(BookingId id);
 }

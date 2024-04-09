@@ -24,8 +24,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
     {
         try
         {
-            HotelId id = new(hotelId);
-            var room = await roomService.GetRoomById(id, roomId);
+            HotelId internalHotelId = new(hotelId);
+            RoomId internalRoomId = new(roomId);
+            var room = await roomService.GetRoomById(internalHotelId, internalRoomId);
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
@@ -72,8 +73,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
         try
         {
             UpdateRoomRequest updateRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity);
-            HotelId id = new(hotelId);
-            var room = await roomService.UpdateRoom(id, roomId, updateRoomRequest);
+            HotelId internalHotelId = new(hotelId);
+            RoomId internalRoomId = new(roomId);
+            var room = await roomService.UpdateRoom(internalHotelId, internalRoomId, updateRoomRequest);
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
@@ -88,8 +90,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
     {
         try
         {
-            HotelId id = new(hotelId);
-            await roomService.DeleteRoom(id, roomId);
+            HotelId internalHotelId = new(hotelId);
+            RoomId internalRoomId = new(roomId);
+            await roomService.DeleteRoom(internalHotelId, internalRoomId);
             return NoContent();
         }
         catch (Exception e)

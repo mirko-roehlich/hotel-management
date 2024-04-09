@@ -26,13 +26,27 @@ public class AppDbContext : DbContext
             .Property(e => e.HotelId)
             .HasConversion<HotelIdConverter>();
 
+        modelBuilder.Entity<Room>()
+            .Property(e => e.Id)
+            .HasConversion<RoomIdConverter>()
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<Booking>()
+            .Property(e => e.Id)
+            .HasConversion<BookingIdConverter>();
         modelBuilder.Entity<Booking>()
             .Property(e => e.HotelId)
             .HasConversion<HotelIdConverter>();
 
         modelBuilder.Entity<Booking>()
             .Ignore(e => e.TotalAmount);
+
+        modelBuilder.Entity<RoomBooking>()
+            .Property(e => e.RoomId)
+            .HasConversion<RoomIdConverter>();
     }
 }
 
 public class HotelIdConverter() : ValueConverter<HotelId, int>(id => id.Value, value => new HotelId(value));
+public class RoomIdConverter() : ValueConverter<RoomId, int>(id => id.Value, value => new RoomId(value));
+public class BookingIdConverter() : ValueConverter<BookingId, Guid>(id => id.Value, value => new BookingId(value));

@@ -5,17 +5,17 @@ namespace HotelManagement.Api.Data.Repositories.Implementations;
 
 public class RoomRepository(AppDbContext dbContext) : IRoomRepository
 {
-    public async Task AddRoom(Room hotel)
+    public async Task AddRoom(Room room)
     {
-        ArgumentNullException.ThrowIfNull(hotel);
-
-        await dbContext.Rooms.AddAsync(hotel);
+        ArgumentNullException.ThrowIfNull(room);
+        
+        await dbContext.Rooms.AddAsync(room);
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteRoom(Room hotel)
+    public async Task DeleteRoom(Room room)
     {
-        dbContext.Rooms.Remove(hotel);
+        dbContext.Rooms.Remove(room);
         await dbContext.SaveChangesAsync();
     }
 
@@ -24,7 +24,7 @@ public class RoomRepository(AppDbContext dbContext) : IRoomRepository
             .Where(r => r.HotelId == hotelId)
             .ToListAsync();
 
-    public async Task<Room?> GetRoomById(HotelId hotelId, int id) =>
+    public async Task<Room?> GetRoomById(HotelId hotelId, RoomId id) =>
         await dbContext.Rooms.FirstOrDefaultAsync(r => r.Id == id && r.HotelId == hotelId);
 
     public async Task UpdateRoom(Room room)

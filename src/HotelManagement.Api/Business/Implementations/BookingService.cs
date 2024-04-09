@@ -23,30 +23,32 @@ public class BookingService(IRoomService roomService, IBookingRepository booking
             bookedRooms.AddRange(selectedRooms);
         }
 
+        var roomBookings = bookedRooms.Select(r =>
+            {
+                r.IsAvailable = false;
+
+                return new RoomBooking
+                {
+                    RoomNumber = r.RoomNumber,
+                    Price = r.Price,
+                    RoomId = r.Id
+                };
+            })
+            .ToList();
+        
         var booking = new Booking
         {
+            Id = BookingId.Create(),
             HotelId = bookRoomsRequest.HotelId,
             BookingNumber = GenerateBookingNumber(),
-            RoomBookings = bookedRooms.Select(r =>
-                {
-                    r.IsAvailable = false;
-
-                    return new RoomBooking
-                    {
-                        RoomNumber = r.RoomNumber,
-                        Price = r.Price,
-                        RoomId = r.Id
-                    };
-                })
-                .ToList(),
+            RoomBookings = roomBookings,
         };
 
         await bookingRepository.Add(booking);
-
         return booking;
     }
 
-    public async Task<Booking?> GetBookingById(Guid id) =>
+    public async Task<Booking?> GetBookingById(BookingId id) =>
         await bookingRepository.GetById(id);
 
     private static string GenerateBookingNumber()

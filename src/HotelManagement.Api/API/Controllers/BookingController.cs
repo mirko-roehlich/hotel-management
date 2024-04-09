@@ -1,6 +1,7 @@
 using HotelManagement.Api.API.Dtos;
 using HotelManagement.Api.API.Extensions;
 using HotelManagement.Api.Business;
+using HotelManagement.Api.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.Api.API.Controllers;
@@ -14,7 +15,8 @@ public class BookingController(IBookingService bookingService) : ControllerBase
     {
         try
         {
-            var booking = await bookingService.GetBookingById(bookingId);
+            BookingId internalBookingId = new(bookingId);
+            var booking = await bookingService.GetBookingById(internalBookingId);
             if (booking is null)
             {
                 return NotFound();

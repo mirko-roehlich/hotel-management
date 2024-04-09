@@ -9,9 +9,9 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
     public async Task<IEnumerable<Room>> GetAllRooms(HotelId hotelId) =>
         await roomRepository.GetAllRooms(hotelId);
 
-    public async Task<Room> GetRoomById(HotelId hotelId, int roomId)
+    public async Task<Room> GetRoomById(HotelId hotelId, RoomId roomId)
     {
-        var room = await roomRepository.GetRoomById(roomId, hotelId);
+        var room = await roomRepository.GetRoomById(hotelId, roomId);
         ArgumentNullException.ThrowIfNull(room);
         
         return room;
@@ -42,7 +42,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         return room;
     }
 
-    public async Task<Room> UpdateRoom(HotelId hotelId, int roomId, UpdateRoomRequest updateRoomRequest)
+    public async Task<Room> UpdateRoom(HotelId hotelId, RoomId roomId, UpdateRoomRequest updateRoomRequest)
     {
         ArgumentNullException.ThrowIfNull(updateRoomRequest);
 
@@ -62,7 +62,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         return existingRoom;
     }
 
-    public async Task DeleteRoom(HotelId hotelId, int roomId)
+    public async Task DeleteRoom(HotelId hotelId, RoomId roomId)
     {
         var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
         ArgumentNullException.ThrowIfNull(existingRoom);

@@ -11,7 +11,7 @@ internal class BookingRepository(AppDbContext dbContext) : IBookingRepository
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Booking?> GetById(Guid id) =>
+    public async Task<Booking?> GetById(BookingId id) =>
         await dbContext.Bookings
             .Include(b => b.RoomBookings)
             .SingleOrDefaultAsync(b => b.Id == id);
