@@ -3,5 +3,6 @@
   RoomNumber: 5678,
   CategoryId: Double,
   Capacity: 2,
-  Price: 29.99
+  Price: 29.99,
+  Currency: USD
 }

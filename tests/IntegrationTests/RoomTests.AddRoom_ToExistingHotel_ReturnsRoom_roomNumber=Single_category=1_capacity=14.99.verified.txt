@@ -3,5 +3,6 @@
   RoomNumber: 1234,
   CategoryId: Single,
   Capacity: 1,
-  Price: 14.99
+  Price: 14.99,
+  Currency: EUR
 }

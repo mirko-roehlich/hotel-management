@@ -1,3 +1,5 @@
+using HotelManagement.Api.Data.Common;
+
 namespace HotelManagement.Api.Data.Models;
 
 public class Booking
@@ -7,7 +9,6 @@ public class Booking
 
     public int HotelId { get; set; }
     public ICollection<RoomBooking> RoomBookings { get; set; } = [];
-    private const decimal Seed = 0m;
-    public decimal TotalAmount => RoomBookings.Aggregate(Seed, (total, roomBooking) => total + roomBooking.Price);
-    public string Currency => RoomBookings.Select(s => s.Currency).Distinct().Single();
+    private Money Seed = Money.Zero;
+    public Money TotalAmount => RoomBookings.Aggregate(Seed, (total, roomBooking) => total + roomBooking.Price);
 }

@@ -36,7 +36,6 @@ public class BookingService(IRoomService roomService, IBookingRepository booking
                         RoomNumber = r.RoomNumber,
                         Price = r.Price,
                         RoomId = r.Id,
-                        Currency = r.Currency
                     };
                 })
                 .ToList(),

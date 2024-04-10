@@ -1,4 +1,5 @@
 using HotelManagement.Api.Business.Models;
+using HotelManagement.Api.Data.Common;
 using HotelManagement.Api.Data.Models;
 using HotelManagement.Api.Data.Repositories;
 
@@ -36,7 +37,6 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
             Category = createRoomRequest.Category,
             Capacity = createRoomRequest.Capacity,
             Price = createRoomRequest.Price,
-            Currency = createRoomRequest.Currency,
             IsAvailable = true
         };
         await roomRepository.AddRoom(room);
@@ -58,8 +58,24 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         existingRoom.RoomNumber = updateRoomRequest.RoomNumber ?? existingRoom.RoomNumber;
         existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
         existingRoom.Capacity = updateRoomRequest.Capacity ?? existingRoom.Capacity;
-        existingRoom.Price = updateRoomRequest.Price ?? existingRoom.Price;
-        existingRoom.Currency = updateRoomRequest.Currency ?? existingRoom.Currency;
+
+        var newCurrency = string.IsNullOrWhiteSpace(updateRoomRequest.Currency) ? Currency.Empty : new Currency(updateRoomRequest.Currency); 
+        
+        if (updateRoomRequest.Price.HasValue && !newCurrency.IsEmpty)
+        {
+            Money newMoney = new(updateRoomRequest.Price.Value, newCurrency);
+            existingRoom.Price = newMoney;
+        }
+        else if (updateRoomRequest.Price.HasValue && newCurrency.IsEmpty)
+        {
+            Money newMoney = new(updateRoomRequest.Price.Value, existingRoom.Price.Currency);
+            existingRoom.Price = newMoney;
+        }
+        else if (!updateRoomRequest.Price.HasValue && !newCurrency.IsEmpty)
+        {
+            Money newPrice = new(existingRoom.Price.Amount, newCurrency);
+            existingRoom.Price = newPrice;
+        }
 
         await roomRepository.UpdateRoom(existingRoom);
         return existingRoom;
