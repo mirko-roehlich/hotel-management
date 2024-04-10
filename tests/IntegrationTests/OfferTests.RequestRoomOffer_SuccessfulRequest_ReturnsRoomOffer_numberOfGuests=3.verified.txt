@@ -3,12 +3,14 @@
     {
       Category: Deluxe,
       Description: ,
-      Price: 69.99
+      Price: 69.99,
+      Currency: EUR
     },
     {
       Category: Suit,
       Description: ,
-      Price: 99.99
+      Price: 99.99,
+      Currency: USD
     }
   ]
 }

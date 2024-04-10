@@ -8,5 +8,6 @@ public class Room
     public RoomCategory Category { get; set; }
     public int Capacity { get; set; }
     public decimal Price { get; set; }
+    public string Currency { get; set; }
     public bool IsAvailable { get; set; }
 }

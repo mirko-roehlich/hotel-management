@@ -36,6 +36,7 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
             Category = createRoomRequest.Category,
             Capacity = createRoomRequest.Capacity,
             Price = createRoomRequest.Price,
+            Currency = createRoomRequest.Currency,
             IsAvailable = true
         };
         await roomRepository.AddRoom(room);
@@ -57,6 +58,8 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         existingRoom.RoomNumber = updateRoomRequest.RoomNumber ?? existingRoom.RoomNumber;
         existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
         existingRoom.Capacity = updateRoomRequest.Capacity ?? existingRoom.Capacity;
+        existingRoom.Price = updateRoomRequest.Price ?? existingRoom.Price;
+        existingRoom.Currency = updateRoomRequest.Currency ?? existingRoom.Currency;
 
         await roomRepository.UpdateRoom(existingRoom);
         return existingRoom;

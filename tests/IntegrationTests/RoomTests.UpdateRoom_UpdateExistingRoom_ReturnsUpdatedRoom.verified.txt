@@ -3,5 +3,5 @@
   RoomNumber: 1234,
   CategoryId: Suit,
   Capacity: 4,
-  Price: 29.99
+  Price: 49.99
 }

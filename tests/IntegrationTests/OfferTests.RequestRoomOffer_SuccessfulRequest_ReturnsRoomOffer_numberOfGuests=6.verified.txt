@@ -3,7 +3,8 @@
     {
       Category: Suit,
       Description: ,
-      Price: 99.99
+      Price: 99.99,
+      Currency: USD
     }
   ]
 }

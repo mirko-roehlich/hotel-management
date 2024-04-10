@@ -14,7 +14,7 @@ public class OfferService(IRoomRepository roomRepository) : IOfferService
             .Where(g => g.Sum(v => v.Capacity) >= offerRequest.NumberOfGuests)
             .Select(g => g.First());
 
-        var roomOffers = categoriesWithCapacity.Select(r => new RoomOffer(r.Category, "", r.Price));
+        var roomOffers = categoriesWithCapacity.Select(r => new RoomOffer(r.Category, "", r.Price, r.Currency));
 
         return new OfferResult(roomOffers);
     }

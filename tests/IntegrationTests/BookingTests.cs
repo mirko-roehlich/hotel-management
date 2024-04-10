@@ -36,7 +36,7 @@ public class BookingTests(IntegrationTestFactory factory) : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _hotel = await _hotelTestClient.AddHotel(new CreateHotelRequestDto("Nice Hotel"));
-        await _roomTestClient.AddRoom(_hotel.Id, new CreateRoomRequestDto(1234, RoomCategory.Single, 1, 19.99m));
+        await _roomTestClient.AddRoom(_hotel.Id, new CreateRoomRequestDto(1234, RoomCategory.Single, 1, 19.99m, "EUR"));
     }
 
     public Task DisposeAsync() => factory.ResetDatabase();
