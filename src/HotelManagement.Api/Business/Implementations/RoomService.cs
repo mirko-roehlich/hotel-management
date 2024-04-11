@@ -24,6 +24,11 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
         var existingHotel = await hotelRepository.GetHotelById(hotelId);
         ArgumentNullException.ThrowIfNull(existingHotel);
 
+        if (createRoomRequest.RoomNumber <= 0)
+        {
+            throw new InvalidOperationException("Room number must be greater than zero.");
+        }
+
         var room = new Room
         {
             HotelId = hotelId,
@@ -43,6 +48,11 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
 
         var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
         ArgumentNullException.ThrowIfNull(existingRoom);
+
+        if (updateRoomRequest.RoomNumber is <= 0)
+        {
+            throw new InvalidCastException("Room number must be greater than zero.");
+        }
 
         existingRoom.RoomNumber = updateRoomRequest.RoomNumber ?? existingRoom.RoomNumber;
         existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
