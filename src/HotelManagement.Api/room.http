@@ -1,0 +1,58 @@
+@base = http://localhost:5093/api
+@hotelId=1
+
+### Get all Rooms
+
+GET {{base}}/hotel/{{hotelId}}/room
+Accept: application/json
+
+### Get Hotel by Id
+
+GET {{base}}/hotel/{{hotelId}}/room/
+Accept: application/json
+
+### Create Room
+
+@roomNumber=10032
+@roomCategory="Double"
+@roomCapacity=2
+@roomPrice=49.99
+@roomCurrency="EUR"
+
+POST {{base}}/hotel/{{hotelId}}/room
+Content-Type: application/json
+
+{
+  "roomNumber": {{roomNumber}},
+  "category": {{roomCategory}},
+  "capacity": {{roomCapacity}},
+  "price": {{roomPrice}},
+  "currency": {{roomCurrency}}
+}
+
+### Update Room
+
+@roomId=1
+@updateRoomNumber=10032
+@updateRoomCategory="Double"
+@updateRoomCapacity=2
+@updateRoomPrice=49.99
+@updateRoomCurrency="EUR"
+
+PUT {{base}}/hotel/{{hotelId}}/room/{{roomId}}
+Content-Type: application/json
+
+{
+  "roomNumber": {{updateRoomNumber}},
+  "category": {{updateRoomCategory}},
+  "capacity": {{updateRoomCapacity}},
+  "price": {{updateRoomPrice}},
+  "currency": {{updateRoomCurrency}}
+}
+
+
+### Delete Hotel
+
+DELETE {{base}}/hotel/{{hotelId}}/room/{{roomId}}
+
+###

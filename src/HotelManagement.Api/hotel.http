@@ -1,0 +1,41 @@
+@base = http://localhost:5093/api
+
+### Get all Hotels
+
+GET {{base}}/hotel
+Accept: application/json
+
+### Get Hotel by Id
+
+@id=1
+GET {{base}}/hotel/{{id}}
+Accept: application/json
+
+### Create Hotel
+
+@hotelName="Hotel Adlon Berlin"
+
+POST {{base}}/hotel
+Content-Type: application/json
+
+{
+  "name": {{hotelName}}
+}
+
+### Update Hotel
+
+@updatedHotelName = "Hotel Adlon Kempinski Berlin"
+@hotelId=1
+
+PUT {{base}}/hotel/{{hotelId}}
+Content-Type: application/json
+
+{
+  "name": {{updatedHotelName}}
+}
+
+### Delete Hotel
+
+DELETE {{base}}/hotel/{{hotelId}}
+
+###

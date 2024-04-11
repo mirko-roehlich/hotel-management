@@ -1,0 +1,29 @@
+@base = http://localhost:5093/api
+
+### Get booking by id
+
+@bookingId=
+
+GET {{base}}/booking/{{bookingId}}
+Accept: application/json
+
+### Book hotel
+
+@hotelId=1
+@firstName="Jon"
+@lastName="Doe"
+@numberOfRooms=2
+@roomCategory="Double"
+
+POST {{base}}/booking
+Content-Type: application/json
+
+{
+  "hotelId": {{hotelId}},
+  "firstName": {{firstName}},
+  "lastName": {{lastName}},
+  "roomRequests": [{
+    "numberOfRooms": {{numberOfRooms}},
+    "category": {{roomCategory}}
+  }]
+}

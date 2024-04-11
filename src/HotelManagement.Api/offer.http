@@ -1,0 +1,13 @@
+@base = http://localhost:5093/api
+
+### Retrieve Room offer
+
+@hotelId=1
+@numberOfGuests=2
+
+POST {{base}}/hotel/{{hotelId}}/offer
+Content-Type: application/json
+
+{
+  "numberOfGuests": {{numberOfGuests}}
+}
