@@ -29,9 +29,9 @@ public class HotelController(IHotelService hotelService) : ControllerBase
         {
             return NotFound();
         }
-        catch (Exception )
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -50,9 +50,9 @@ public class HotelController(IHotelService hotelService) : ControllerBase
             var hotelDto = HotelDto.From(hotel);
             return CreatedAtAction(nameof(GetHotelById), new { id = hotelDto.Id }, hotelDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -86,9 +86,9 @@ public class HotelController(IHotelService hotelService) : ControllerBase
             await hotelService.DeleteHotel(id);
             return NoContent();
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 }

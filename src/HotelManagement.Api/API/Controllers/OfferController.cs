@@ -18,9 +18,9 @@ public class OfferController(IOfferService offerService) : Controller
             var offerResultDto = OfferResultDto.From(offerResult);
             return Ok(offerResultDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 }

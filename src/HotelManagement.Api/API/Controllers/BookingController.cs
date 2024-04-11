@@ -23,9 +23,9 @@ public class BookingController(IBookingService bookingService) : ControllerBase
             var bookingDto = BookingResultDto.From(booking);
             return Ok(bookingDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -39,9 +39,9 @@ public class BookingController(IBookingService bookingService) : ControllerBase
             var bookingDto = BookingResultDto.From(booking);
             return Ok(bookingDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 }

@@ -30,9 +30,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
         {
             return NotFound();
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -51,9 +51,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
             var roomDto = RoomDto.From(room);
             return CreatedAtAction(nameof(GetRoomById), new { hotelId, roomId = roomDto.Id }, roomDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -72,9 +72,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
             var roomDto = RoomDto.From(room);
             return Ok(roomDto);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 
@@ -86,9 +86,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
             await roomService.DeleteRoom(hotelId, roomId);
             return NoContent();
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
     }
 }
