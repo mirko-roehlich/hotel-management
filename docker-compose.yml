@@ -9,7 +9,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - postgres:/workshop/hotelmanagement-dev
+      - ./hotelmanagement.sql:/docker-entrypoint-initdb.d/hotelmanagement.sql
     ports:
       - "5432:5432"
     networks:
@@ -25,7 +26,6 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
-
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
