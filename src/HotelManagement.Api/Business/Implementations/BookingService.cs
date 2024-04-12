@@ -4,10 +4,8 @@ using HotelManagement.Api.Data.Repositories;
 
 namespace HotelManagement.Api.Business.Implementations;
 
-public class BookingService(IHotelService hotelService, IRoomService roomService, IBookingRepository bookingRepository) : IBookingService
+public class BookingService(IRoomService roomService, IBookingRepository bookingRepository) : IBookingService
 {
-    private readonly IHotelService _hotelService = hotelService;
-
     public async Task<Booking> BookRooms(BookRoomsRequest bookRoomsRequest)
     {
         var availableRooms = await roomService.GetAvailableRooms(bookRoomsRequest.HotelId);
@@ -15,13 +13,13 @@ public class BookingService(IHotelService hotelService, IRoomService roomService
         List<Room> bookedRooms = [];
         foreach (var roomRequest in bookRoomsRequest.RoomRequests)
         {
-            var availableCategory = availableRooms.Count(r => r.Category == roomRequest.Category);
-            if (availableCategory != roomRequest.NumberOfRooms)
+            var AreEnoughRoomsAvailable = availableRooms.Count(r => r.Category == roomRequest.Category) >= roomRequest.NumberOfRooms;
+            if (!AreEnoughRoomsAvailable)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException($"Not enough rooms of {roomRequest.Category} available.");
             }
 
-            var selectedRooms = availableRooms.Take(roomRequest.NumberOfRooms);
+            var selectedRooms = availableRooms.Where(r => r.Category == roomRequest.Category).Take(roomRequest.NumberOfRooms);
             bookedRooms.AddRange(selectedRooms);
         }
 
