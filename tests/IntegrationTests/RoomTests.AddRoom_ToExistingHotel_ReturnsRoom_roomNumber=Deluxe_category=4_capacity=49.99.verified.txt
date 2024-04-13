@@ -1,6 +1,6 @@
 ﻿{
   Id: 2,
-  RoomNumber: 45679,
+  RoomNumber: 4567,
   CategoryId: Deluxe,
   Capacity: 4,
   Price: 49.99,

@@ -23,9 +23,14 @@ public readonly record struct BookingId(Guid Value)
     public static BookingId TryParse(string? value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        var prefix = value[..Prefix.Length];
 
-        var foo = value[Prefix.Length..];
-        var id = Guid.Parse(foo);
+        if (prefix != Prefix) throw new InvalidOperationException($"Value {value} is not a booking id");
+        
+        var inputId = value[Prefix.Length..];
+        var idParsed = Guid.TryParse(inputId, out var id);
+
+        if (!idParsed) throw new InvalidOperationException($"Value {value} is not in a valid format.");
 
         return new BookingId(id);
     }

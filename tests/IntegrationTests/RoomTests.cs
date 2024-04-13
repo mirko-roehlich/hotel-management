@@ -18,8 +18,8 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     [Theory]
     [InlineData(1234, RoomCategory.Single, 1, 14.99, "EUR")]
     [InlineData(5678,RoomCategory.Double, 2, 29.99, "USD")]
-    [InlineData(90123, RoomCategory.King, 2, 39.99, "EUR")]
-    [InlineData(45679, RoomCategory.Deluxe, 4, 49.99, "EUR")]
+    [InlineData(9012, RoomCategory.King, 2, 39.99, "EUR")]
+    [InlineData(4567, RoomCategory.Deluxe, 4, 49.99, "EUR")]
     [InlineData(12345, RoomCategory.Suit, 6, 99.99, "USD")]
     public async Task AddRoom_ToExistingHotel_ReturnsRoom(int roomNumber, RoomCategory category, int capacity, decimal price, string currency)
     {

@@ -57,7 +57,7 @@ public class RoomController(IRoomService roomService) : ControllerBase
         {
             HotelId id = new(hotelId);
             CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price, dto.Currency);
-            var room = await roomService.AddRoom(hotelId, createRoomRequest);
+            var room = await roomService.AddRoom(id, createRoomRequest);
             var roomDto = RoomDto.From(room);
             return CreatedAtAction(nameof(GetRoomById), new { hotelId, roomId = roomDto.Id }, roomDto);
         }
