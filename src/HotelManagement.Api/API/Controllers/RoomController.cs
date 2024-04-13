@@ -55,9 +55,9 @@ public class RoomController(IRoomService roomService) : ControllerBase
         
         try
         {
-            CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price);
             HotelId id = new(hotelId);
-            var room = await roomService.AddRoom(id, createRoomRequest);
+            CreateRoomRequest createRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price, dto.Currency);
+            var room = await roomService.AddRoom(hotelId, createRoomRequest);
             var roomDto = RoomDto.From(room);
             return CreatedAtAction(nameof(GetRoomById), new { hotelId, roomId = roomDto.Id }, roomDto);
         }
@@ -77,7 +77,7 @@ public class RoomController(IRoomService roomService) : ControllerBase
 
         try
         {
-            UpdateRoomRequest updateRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity);
+            UpdateRoomRequest updateRoomRequest = new(dto.RoomNumber, dto.CategoryId, dto.Capacity, dto.Price, dto.Currency);
             HotelId internalHotelId = new(hotelId);
             RoomId internalRoomId = new(roomId);
             var room = await roomService.UpdateRoom(internalHotelId, internalRoomId, updateRoomRequest);

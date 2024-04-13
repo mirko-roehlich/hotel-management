@@ -1,3 +1,5 @@
+using HotelManagement.Api.Data.Common;
+
 namespace HotelManagement.Api.Data.Models;
 
 public class Booking
@@ -7,8 +9,8 @@ public class Booking
 
     public HotelId HotelId { get; set; }
     public ICollection<RoomBooking> RoomBookings { get; set; } = [];
-    private const decimal Seed = 0m;
-    public decimal TotalAmount => RoomBookings.Aggregate(Seed, (total, roomBooking) => total + roomBooking.Price);
+    private Money Seed = Money.Zero;
+    public Money TotalAmount => RoomBookings.Aggregate(Seed, (total, roomBooking) => total + roomBooking.Price);
 }
 
 public readonly record struct BookingId(Guid Value)
@@ -21,7 +23,7 @@ public readonly record struct BookingId(Guid Value)
     public static BookingId TryParse(string? value)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
-        
+
         var foo = value[Prefix.Length..];
         var id = Guid.Parse(foo);
 

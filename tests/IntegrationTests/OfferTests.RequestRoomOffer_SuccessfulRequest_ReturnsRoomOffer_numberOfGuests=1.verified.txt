@@ -3,27 +3,32 @@
     {
       Category: Single,
       Description: ,
-      Price: 14.99
+      Price: 14.99,
+      Currency: EUR
     },
     {
       Category: Double,
       Description: ,
-      Price: 24.99
+      Price: 24.99,
+      Currency: USD
     },
     {
       Category: King,
       Description: ,
-      Price: 29.99
+      Price: 29.99,
+      Currency: EUR
     },
     {
       Category: Deluxe,
       Description: ,
-      Price: 69.99
+      Price: 69.99,
+      Currency: EUR
     },
     {
       Category: Suit,
       Description: ,
-      Price: 99.99
+      Price: 99.99,
+      Currency: USD
     }
   ]
 }

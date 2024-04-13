@@ -3,5 +3,6 @@
   RoomNumber: 90123,
   CategoryId: King,
   Capacity: 2,
-  Price: 39.99
+  Price: 39.99,
+  Currency: EUR
 }

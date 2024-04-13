@@ -3,5 +3,6 @@
   RoomNumber: 7032,
   CategoryId: Double,
   Capacity: 2,
-  Price: 29.99
+  Price: 29.99,
+  Currency: EUR
 }

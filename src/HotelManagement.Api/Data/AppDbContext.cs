@@ -1,3 +1,4 @@
+using HotelManagement.Api.Data.Common;
 using HotelManagement.Api.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -31,9 +32,29 @@ public class AppDbContext : DbContext
             .HasConversion<RoomIdConverter>()
             .ValueGeneratedOnAdd();
 
+        modelBuilder.Entity<Room>().Ignore(e => e.Price);
+
+        modelBuilder.Entity<Room>()
+            .Property<decimal>("Amount")
+            .HasColumnName("Price")
+            .HasColumnType("decimal(18, 2)");
+
+        modelBuilder.Entity<Room>()
+            .Property<Currency>("Currency")
+            .HasColumnName("Currency")
+            .HasConversion(
+                currency => currency.Symbol,
+                symbol => new Currency(symbol)
+            );
+
+        modelBuilder.Entity<Room>()
+            .Property(e => e.RoomNumber)
+            .HasConversion<RoomNumberConverter>();
+
         modelBuilder.Entity<Booking>()
             .Property(e => e.Id)
             .HasConversion<BookingIdConverter>();
+
         modelBuilder.Entity<Booking>()
             .Property(e => e.HotelId)
             .HasConversion<HotelIdConverter>();
@@ -41,9 +62,18 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Booking>()
             .Ignore(e => e.TotalAmount);
 
-        modelBuilder.Entity<Room>()
-            .Property(e => e.RoomNumber)
-            .HasConversion<RoomNumberConverter>();
+        modelBuilder.Entity<RoomBooking>().Ignore(e => e.Price);
+
+        modelBuilder.Entity<RoomBooking>()
+            .Property<decimal>("Amount")
+            .HasColumnName("Price");
+
+        modelBuilder.Entity<RoomBooking>()
+            .Property<Currency>("Currency")
+            .HasConversion(
+                currency => currency.Symbol,
+                symbol => new Currency(symbol)
+            );
 
         modelBuilder.Entity<RoomBooking>()
             .Property(e => e.RoomNumber)

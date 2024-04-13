@@ -3,5 +3,6 @@
   RoomNumber: 12345,
   CategoryId: Suit,
   Capacity: 6,
-  Price: 99.99
+  Price: 99.99,
+  Currency: USD
 }

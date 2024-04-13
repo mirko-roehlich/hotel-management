@@ -16,14 +16,14 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     private readonly RoomTestClient _roomTestClient = new(factory.Client);
 
     [Theory]
-    [InlineData(1234, RoomCategory.Single, 1, 14.99)]
-    [InlineData(5678,RoomCategory.Double, 2, 29.99)]
-    [InlineData(90123, RoomCategory.King, 2, 39.99)]
-    [InlineData(45679, RoomCategory.Deluxe, 4, 49.99)]
-    [InlineData(123456, RoomCategory.Suit, 6, 99.99)]
-    public async Task AddRoom_ToExistingHotel_ReturnsRoom(int roomNumber, RoomCategory category, int capacity, decimal price)
+    [InlineData(1234, RoomCategory.Single, 1, 14.99, "EUR")]
+    [InlineData(5678,RoomCategory.Double, 2, 29.99, "USD")]
+    [InlineData(90123, RoomCategory.King, 2, 39.99, "EUR")]
+    [InlineData(45679, RoomCategory.Deluxe, 4, 49.99, "EUR")]
+    [InlineData(12345, RoomCategory.Suit, 6, 99.99, "USD")]
+    public async Task AddRoom_ToExistingHotel_ReturnsRoom(int roomNumber, RoomCategory category, int capacity, decimal price, string currency)
     {
-        var dto = new CreateRoomRequestDto(roomNumber, category, capacity, price);
+        var dto = new CreateRoomRequestDto(roomNumber, category, capacity, price, currency);
         var room = await _roomTestClient.AddRoom(_hotel.Id, dto);
 
         await Verify(room).UseParameters(category, capacity, price);
@@ -48,7 +48,7 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     [Fact]
     public async Task UpdateRoom_UpdateExistingRoom_ReturnsUpdatedRoom()
     {
-        var dto = new UpdateRoomRequestDto(1234, RoomCategory.Suit, 4, 49.99m);
+        var dto = new UpdateRoomRequestDto(1234, RoomCategory.Suit, 4, 49.99m, "EUR");
         var room = await _roomTestClient.UpdateRoom(_hotel.Id, _room.Id, dto);
 
         await Verify(room);
@@ -67,7 +67,7 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _hotel = await _hotelTestClient.AddHotel(new CreateHotelRequestDto("Nice Hotel"));
-        _room = await _roomTestClient.AddRoom(_hotel.Id, new CreateRoomRequestDto(7032, RoomCategory.Double, 2, 29.99m));
+        _room = await _roomTestClient.AddRoom(_hotel.Id, new CreateRoomRequestDto(7032, RoomCategory.Double, 2, 29.99m, "EUR"));
     }
 
     public Task DisposeAsync() => factory.ResetDatabase();
