@@ -1,3 +1,6 @@
+using FluentValidation;
+using HotelManagement.Api.API.Dtos;
+using HotelManagement.Api.API.Validators;
 using HotelManagement.Api.Business;
 using HotelManagement.Api.Business.Implementations;
 using HotelManagement.Api.Data;
@@ -20,6 +23,8 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IOfferService, OfferService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+
+builder.Services.AddScoped<IValidator<CreateRoomRequestDto>, CreateRoomRequestValidator>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

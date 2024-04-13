@@ -16,7 +16,7 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<Hotel>()
             .HasKey(e => e.Id);
-            
+
         modelBuilder.Entity<Hotel>()
             .Property(e => e.Id)
             .HasConversion<HotelIdConverter>()
@@ -41,6 +41,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Booking>()
             .Ignore(e => e.TotalAmount);
 
+        modelBuilder.Entity<Room>()
+            .Property(e => e.RoomNumber)
+            .HasConversion<RoomNumberConverter>();
+
+        modelBuilder.Entity<RoomBooking>()
+            .Property(e => e.RoomNumber)
+            .HasConversion<RoomNumberConverter>();
+
         modelBuilder.Entity<RoomBooking>()
             .Property(e => e.RoomId)
             .HasConversion<RoomIdConverter>();
@@ -48,5 +56,9 @@ public class AppDbContext : DbContext
 }
 
 public class HotelIdConverter() : ValueConverter<HotelId, int>(id => id.Value, value => new HotelId(value));
+
 public class RoomIdConverter() : ValueConverter<RoomId, int>(id => id.Value, value => new RoomId(value));
+
 public class BookingIdConverter() : ValueConverter<BookingId, Guid>(id => id.Value, value => new BookingId(value));
+
+public class RoomNumberConverter() : ValueConverter<RoomNumber, int>(number => number.Value, value => new RoomNumber(value));

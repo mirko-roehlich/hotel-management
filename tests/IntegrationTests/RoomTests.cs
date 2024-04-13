@@ -20,7 +20,7 @@ public class RoomTests(IntegrationTestFactory factory) : IAsyncLifetime
     [InlineData(5678,RoomCategory.Double, 2, 29.99)]
     [InlineData(90123, RoomCategory.King, 2, 39.99)]
     [InlineData(45679, RoomCategory.Deluxe, 4, 49.99)]
-    [InlineData(12345, RoomCategory.Suit, 6, 99.99)]
+    [InlineData(123456, RoomCategory.Suit, 6, 99.99)]
     public async Task AddRoom_ToExistingHotel_ReturnsRoom(int roomNumber, RoomCategory category, int capacity, decimal price)
     {
         var dto = new CreateRoomRequestDto(roomNumber, category, capacity, price);
