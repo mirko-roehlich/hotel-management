@@ -19,10 +19,7 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
 
     public async Task<Hotel> AddHotel(CreateHotelRequest createHotelRequest)
     {
-        var hotel = new Hotel
-        {
-            Name = createHotelRequest.Name
-        };
+        var hotel = new Hotel(createHotelRequest.Name);
         await hotelRepository.AddHotel(hotel);
         return hotel;
     }
@@ -35,9 +32,12 @@ public class HotelService(IHotelRepository hotelRepository) : IHotelService
             throw new Exception();
         }
 
-        existingHotel.Name = updateHotelRequest.Name ?? existingHotel.Name;
+        if (updateHotelRequest.Name is not null)
+        {
+            existingHotel.UpdateHotelName(updateHotelRequest.Name);
+            await hotelRepository.UpdateHotel(existingHotel);
+        }
 
-        await hotelRepository.UpdateHotel(existingHotel);
         return existingHotel;
     }
 
