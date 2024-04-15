@@ -33,4 +33,7 @@ public class HotelRepository(AppDbContext dbContext) : IHotelRepository
 
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task Save() => 
+        await dbContext.SaveChangesAsync();
 }

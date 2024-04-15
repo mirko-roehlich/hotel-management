@@ -11,5 +11,4 @@ public interface IRoomService
     
     Task<Room> UpdateRoom(HotelId hotelId, RoomId roomId, UpdateRoomRequest room);
     Task DeleteRoom(HotelId hotelId, RoomId roomId);
-    Task<IEnumerable<Room>> GetAvailableRooms(HotelId hotelId);
 }

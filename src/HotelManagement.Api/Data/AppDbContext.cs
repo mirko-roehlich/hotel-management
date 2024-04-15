@@ -23,6 +23,9 @@ public class AppDbContext : DbContext
             .HasConversion<HotelIdConverter>()
             .ValueGeneratedOnAdd();
 
+        modelBuilder.Entity<Hotel>()
+            .Ignore(e => e.AvailableRooms);
+
         modelBuilder.Entity<Room>()
             .Property(e => e.HotelId)
             .HasConversion<HotelIdConverter>();

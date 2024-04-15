@@ -9,4 +9,5 @@ public interface IHotelRepository
     Task<List<Hotel>> GetAllHotels();
     Task<Hotel?> GetHotelById(HotelId id);
     Task UpdateHotel(Hotel hotel);
+    Task Save();
 }

@@ -4,35 +4,18 @@ using HotelManagement.Api.Data.Repositories;
 
 namespace HotelManagement.Api.Business.Implementations;
 
-public class BookingService(IRoomService roomService, IBookingRepository bookingRepository) : IBookingService
+public class BookingService(IHotelRepository hotelRepository, IBookingRepository bookingRepository) : IBookingService
 {
     public async Task<Booking> BookRooms(BookRoomsRequest bookRoomsRequest)
     {
-        var availableRooms = await roomService.GetAvailableRooms(bookRoomsRequest.HotelId);
-
-        List<Room> bookedRooms = [];
-        foreach (var roomRequest in bookRoomsRequest.RoomRequests)
-        {
-            var AreEnoughRoomsAvailable = availableRooms.Count(r => r.Category == roomRequest.Category) >= roomRequest.NumberOfRooms;
-            if (!AreEnoughRoomsAvailable)
+        var hotel = await hotelRepository.GetHotelById(bookRoomsRequest.HotelId);
+        var categoryRequests = bookRoomsRequest.RoomRequests.ToDictionary(roomRequest => roomRequest.Category, roomRequest => roomRequest.NumberOfRooms);
+        var selectedRooms = hotel.BookRooms(categoryRequests);
+        var roomBookings = selectedRooms.Select(r => new RoomBooking
             {
-                throw new InvalidOperationException($"Not enough rooms of {roomRequest.Category} available.");
-            }
-
-            var selectedRooms = availableRooms.Where(r => r.Category == roomRequest.Category).Take(roomRequest.NumberOfRooms);
-            bookedRooms.AddRange(selectedRooms);
-        }
-
-        var roomBookings = bookedRooms.Select(r =>
-            {
-                r.IsAvailable = false;
-
-                return new RoomBooking
-                {
-                    RoomNumber = r.RoomNumber,
-                    Price = r.Price,
-                    RoomId = r.Id
-                };
+                RoomNumber = r.RoomNumber,
+                Price = r.Price,
+                RoomId = r.Id
             })
             .ToList();
         

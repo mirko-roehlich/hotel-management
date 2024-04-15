@@ -1,21 +1,25 @@
 using HotelManagement.Api.Business.Models;
-using HotelManagement.Api.Data.Common;
 using HotelManagement.Api.Data.Models;
 using HotelManagement.Api.Data.Repositories;
 
 namespace HotelManagement.Api.Business.Implementations;
 
-public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelRepository) : IRoomService
+public class RoomService(IHotelRepository hotelRepository) : IRoomService
 {
-    public async Task<IEnumerable<Room>> GetAllRooms(HotelId hotelId) =>
-        await roomRepository.GetAllRooms(hotelId);
+    public async Task<IEnumerable<Room>> GetAllRooms(HotelId hotelId)
+    {
+        var hotel = await hotelRepository.GetHotelById(hotelId);
+        ArgumentNullException.ThrowIfNull(hotel);
+        
+        return hotel.Rooms;
+    }
 
     public async Task<Room> GetRoomById(HotelId hotelId, RoomId roomId)
     {
-        var room = await roomRepository.GetRoomById(hotelId, roomId);
-        ArgumentNullException.ThrowIfNull(room);
+        var hotel = await hotelRepository.GetHotelById(hotelId);
+        ArgumentNullException.ThrowIfNull(hotel);
         
-        return room;
+        return hotel.Rooms.SingleOrDefault(r => r.Id == roomId) ?? throw new ArgumentNullException();
     }
 
     public async Task<Room> AddRoom(HotelId hotelId, CreateRoomRequest createRoomRequest)
@@ -24,73 +28,32 @@ public class RoomService(IRoomRepository roomRepository, IHotelRepository hotelR
 
         var existingHotel = await hotelRepository.GetHotelById(hotelId);
         ArgumentNullException.ThrowIfNull(existingHotel);
-
-        var room = new Room
-        {
-            HotelId = hotelId,
-            RoomNumber = RoomNumber.Create(createRoomRequest.RoomNumber, GetMaxFloors(hotelId)),
-            Category = createRoomRequest.Category,
-            Capacity = createRoomRequest.Capacity,
-            Price = createRoomRequest.Price,
-            IsAvailable = true
-        };
-        await roomRepository.AddRoom(room);
+        
+        var room = existingHotel.AddNewRoom(createRoomRequest.RoomNumber, createRoomRequest.Category, createRoomRequest.Capacity, createRoomRequest.Price);
+        await hotelRepository.Save();
+        
         return room;
     }
-
-    private static int GetMaxFloors(int hotelId) =>
-        hotelId switch
-        {
-            1 => 12,
-            2 => 11,
-            3 => 14,
-            _ => 10
-        };
 
     public async Task<Room> UpdateRoom(HotelId hotelId, RoomId roomId, UpdateRoomRequest updateRoomRequest)
     {
         ArgumentNullException.ThrowIfNull(updateRoomRequest);
 
-        var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
-        ArgumentNullException.ThrowIfNull(existingRoom);
+        var hotel = await hotelRepository.GetHotelById(hotelId);
+        ArgumentNullException.ThrowIfNull(hotel);
 
-        if (updateRoomRequest.RoomNumber.HasValue)
-        {
-            existingRoom.RoomNumber = RoomNumber.Create(updateRoomRequest.RoomNumber.Value, GetMaxFloors(hotelId));
-        }
+        hotel.UpdateRoom(roomId, updateRoomRequest.RoomNumber, updateRoomRequest.Category, updateRoomRequest.Capacity, updateRoomRequest.Price, updateRoomRequest.Currency);
+        await hotelRepository.Save();
 
-        existingRoom.Category = updateRoomRequest.Category ?? existingRoom.Category;
-        existingRoom.Capacity = updateRoomRequest.Capacity ?? existingRoom.Capacity;
-
-        var newCurrency = string.IsNullOrWhiteSpace(updateRoomRequest.Currency) ? Currency.Empty : new Currency(updateRoomRequest.Currency); 
-        
-        if (updateRoomRequest.Price.HasValue && !newCurrency.IsEmpty)
-        {
-            Money newMoney = new(updateRoomRequest.Price.Value, newCurrency);
-            existingRoom.Price = newMoney;
-        }
-        else if (updateRoomRequest.Price.HasValue && newCurrency.IsEmpty)
-        {
-            Money newMoney = new(updateRoomRequest.Price.Value, existingRoom.Price.Currency);
-            existingRoom.Price = newMoney;
-        }
-        else if (!updateRoomRequest.Price.HasValue && !newCurrency.IsEmpty)
-        {
-            Money newPrice = new(existingRoom.Price.Amount, newCurrency);
-            existingRoom.Price = newPrice;
-        }
-
-        await roomRepository.UpdateRoom(existingRoom);
-        return existingRoom;
+        return hotel.Rooms.Single(r => r.Id == roomId);
     }
 
     public async Task DeleteRoom(HotelId hotelId, RoomId roomId)
     {
-        var existingRoom = await roomRepository.GetRoomById(hotelId, roomId);
-        ArgumentNullException.ThrowIfNull(existingRoom);
+        var hotel = await hotelRepository.GetHotelById(hotelId);
+        ArgumentNullException.ThrowIfNull(hotel);
 
-        await roomRepository.DeleteRoom(existingRoom);
+        hotel.RemoveRoom(roomId);
+        await hotelRepository.Save();
     }
-
-    public async Task<IEnumerable<Room>> GetAvailableRooms(HotelId hotelId) => await roomRepository.GetAvailableRooms(hotelId);
 }
